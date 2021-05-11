@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import './app.css';
 import Habits from './components/habits';
-import InputForm from './components/addForm';
 import Navbar from './components/navbar';
 
 class App extends Component {
+
+
   state = {
     habits: [
       { id: 1, name: 'Reading', count: 0 },
@@ -34,28 +35,22 @@ class App extends Component {
     this.setState({ habits })
   };
 
-  handleAddHabit = (habitText) => {
-    const habits = [...this.state.habits];
-    let newHabbit = {
-      id: this.state.habits.length + 1,
-      name: habitText,
-      count: 0
-    };
-    habits.push(newHabbit);
-
+  handleAdd = name => {
+    const habits = [...this.state.habits, { id: Date.now(), name, count: 0, }];
     this.setState({ habits });
   }
+
 
   render() {
     return (
       <>
         <Navbar totalCount={this.state.habits.filter(item => item.count > 0).length} />
-        <InputForm onAddHabit={this.handleAddHabit} />
         <Habits
           habits={this.state.habits}
           onIncrement={this.handleIncrement}
           onDecrement={this.handleDecrement}
           onDelete={this.handleDelete}
+          onAdd={this.handleAdd}
         />
         <button>Reset All</button>
       </>

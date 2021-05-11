@@ -1,26 +1,25 @@
 import React, { Component } from 'react';
 
-class InputForm extends Component {
+class AddForm extends Component {
+  formRef = React.createRef();
+  inputRef = React.createRef();
 
-  status = {
-    inputText: '',
-  }
 
-  handleChange = (event) => {
-    let text = event.target.value;
-    this.setState({
-      inputText: text,
-    })
+  onSubmit = event => {
+    event.preventDefault();
+    const name = this.inputRef.current.value;
+    name && this.props.onAdd(name);
+    this.formRef.current.reset();
   }
 
   render() {
     return (
-      <div>
-        <input type="text" placeholder="Habit" onChange={this.handleChange} />
-        <button onClick={() => { this.props.onAddHabit(this.state.inputText) }}>Add</button>
-      </div>
+      <form ref={this.formRef} className="add-form" onSubmit={this.onSubmit}>
+        <input ref={this.inputRef} className="add-input" type="text" placeholder="Habit" />
+        <button className="add-button">Add</button>
+      </form>
     );
   }
 }
 
-export default InputForm;
+export default AddForm;
